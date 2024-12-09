@@ -73,7 +73,8 @@ export class UsersService {
       if (!mongoose.isValidObjectId(_id)) {
         return await { message: `Invalid ID format: ${_id}` };
       }
-      const user = await this.userModel.findById({_id})
+      const user = await this.userModel
+      .findById({_id})
       .select("-password")
       ;
       if (!user) {
@@ -86,6 +87,11 @@ export class UsersService {
       throw new Error(`Error while fetching user: ${error.message}`);
     }
   }
+
+async findByEmail (email: string){
+  return await this.userModel.findOne({email})
+
+}
 
   async update(updateUserDto: UpdateUserDto) {
     const { _id, name, phone, address, image } = updateUserDto;
